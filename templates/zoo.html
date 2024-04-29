@@ -1,0 +1,249 @@
+<!-- https://www.w3schools.com/w3css/w3css_templates.asp -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>The Zoo</title>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='images/favicon.png') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lato.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<!-- we cannot store this locally since it has dependencies hosted privately in the same location as the css file -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: "Lato", sans-serif}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">The Zoo</a>
+    <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Our Hotel</a>
+    <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Educational Visits</a>
+    <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Book Tickets</a>
+    {% if "token" in session %}
+      <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Login</a>
+    {% endif %}
+    <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">My Bookings</a>
+  </div>
+</div>
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  {% if "token" in session %}
+    <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large">Login</a>
+  {% endif %}
+  <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large">My Bookings</a>
+  <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+  <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large">The Zoo</a>
+  <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large">Our Hotel</a>
+  <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large">Educational Visits</a>
+  <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large">Book Tickets</a>
+</div>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <!-- The Top Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px">
+
+    {% if messages|length > 0  %}
+      {% for message in messages %}
+        <div class="info">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          <strong>{{message}}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <h2 class="w3-wide">Our Wonderful Zoo Animals</h2>
+    <p class="w3-opacity"><i>Made possible by you!</i></p>
+    <img src="{{ url_for('static',filename='images/giraffe2.webp') }}" class="w3-image">
+    <h5 class="w3-justify"><center>Over the years, we have dedicated ourselves to bringing the animals we take in a second chance at life. We hope to bring happiness to these animals while also giving people the chance to experience the sight of these majestic creatures.
+    As we expand, we hope to continue to help out and home these animals in a safe environment where they can flourish in a habitat that suits them. It is from our visitors continued support that we are able to provide the aid that these animals require,
+      and as such we hope to repay the favor by giving you the best experience we can possibly offer!</center></h5>
+    <p class="w3-justify"><center>Our animal Kingdom is vast and as a result we cannot list everyone here. However, we are continually working to expand this list to be as comprehensive as possible to our visitors know what to expect.
+    This does mean you may see some unexpected inhabitants beyond your wildest dreams on your trip!</center></p>
+    <div class="w3-container w3-content w3-center" style="width: 25%">
+      <div class="w3-round-large w3-button" style="background-color: #A7A7A7;">
+        <h3 style="color: white"><a href="{{ url_for('tickets') }}">Book Tickets</a></h3>
+      </div>
+    </div>
+    <div class="w3-row w3-padding-32">
+      <div class="w3-third">
+        <a href="#tigers"><p>View Tigers</p></a>
+        <a href="#tigers"><img src="{{ url_for('static',filename='images/tiger1.jpg') }}" class="w3-round w3-margin-bottom" alt="Tigers" style="width:60%"></a>
+      </div>
+      <div class="w3-third">
+        <a href="#pandas"><p>View Pandas</p></a>
+        <a href="#pandas"><img src="{{ url_for('static',filename='images/panda1.jpg') }}" class="w3-round w3-margin-bottom" alt="Random Name" style="width:60%"></a>
+      </div>
+      <div class="w3-third">
+        <a href="#koalas"><p>View Koalas</p></a>
+       <a href="#koalas"><img src="{{ url_for('static',filename='images/koala1.jpg') }}" class="w3-round" alt="Random Name" style="width:60%"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Tiger Section -->
+  <div class="w3-black" id="tigers">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Incomes Tiffany</h2>
+      <p class="w3-opacity w3-center"><i>Our most famous Tiger</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/tiger2.jpg') }}">
+        </div>
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">Tiffany has been with us since 2016 when they were just a little kitten.
+            She has grown to be a very independent yet lovable member of our family. She likes to bathe in her waterfall when it gets hot outside to stay cool and loves to chase around her big barrels and other toys!
+            Tiffany can usually be seen laying in her pool under her waterfall or playing with her toys during the afternoon during summer and is well known for always being seen soggy despite her feline nature.</h3>
+        </div>
+      </div>
+    </div>
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Meet Swanson</h2>
+      <p class="w3-opacity w3-center"><i>One of our many beautiful Tigers</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">Swanson is a senior Tiger - though his looks may be deceiving - having been found in the wild in 2008 with injuries to his front left leg.
+            As a result, he spends a lot of his time lounging around and relaxing in his own habitat. Swanson is very distinguishable from our other tigers due to his very brightly coloured orange coat despite his older age.
+            When he does decide to move about, usually he does so in a slower manner as his leg cannot support all of his weight. Regardless of his injuries, we still love him and we hope you do to!</h3>
+        </div>
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/tiger3.jpg') }}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Pandas Section -->
+  <div class="w3-white" id="pandas">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Tracey & Paul</h2>
+      <p class="w3-opacity w3-center"><i>Mother & Son duo</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/panda2.jpg') }}">
+        </div>
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">These two fur-balls were brought in after the loss of their natural home due to deforestation. They are some of the newest additions to our family, only being brought to us towards the end of 2023.
+          Together, these two wonderful characters spend a lot of their time climbing trees, eating bamboo as well as relaxing in the tall grass in their enclosures, constantly sticking by each other's side.
+          They are a fan favorite as you can commonly them clumsily loafing around!</h3>
+        </div>
+      </div>
+    </div>
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">James</h2>
+      <p class="w3-opacity w3-center"><i>The Playful Panda</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">James is by far our best crowd pleaser. James came to us with Tracey and Paul as the lone survivor of his family. Despite his shortcomings and the loss of his family, he never fails to put a smile on his visitors faces.
+          Commonly, you can see him pulling funny faces or laying in odd positions - anything that could get people to chuckle!
+            He loves to roll about his enclosure as well as lay back and relax. We have yet to see a disappointed visitor after they meet James.</h3>
+        </div>
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/panda3.jpg') }}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Koalas Section -->
+  <div class="w3-black" id="koalas">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Kai</h2>
+      <p class="w3-opacity w3-center"><i>The Crazy Koala</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/koala3.jpg') }}">
+        </div>
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">Sometimes it may be a struggle to get a good look at Kai due to his active nature. He loves to zip about his enclosure, jumping up and between the many trees he has access to.
+          He likes to stay active and rarely slows down, so you need a keen eye to keep up! When he isn't rampaging about he can most often be found in the taller parts of trees resting where he is out of the way.</h3>
+        </div>
+      </div>
+    </div>
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Toby</h2>
+      <p class="w3-opacity w3-center"><i>The lazy Koala</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">Toby is the polar opposite of Kai. It is rare you will see this lethargic boy leave his favorite hiding spot in one of their trees.
+            Toby loves to sit and munch on the leaves of trees all day and watch as Kai zooms about. Sometimes Kai will come to say hello when he needs a rest and they will snack together!
+            He only tends to move when he has run out of reachable food sources, so keep an eye out for when he does!
+          </h3>
+        </div>
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/koala2.jpg') }}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Contact Section -->
+  <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+    <h2 class="w3-wide w3-center">CONTACT</h2>
+    <p class="w3-opacity w3-center"><i>Fan? Drop a note!</i></p>
+    <div class="w3-row w3-padding-32">
+      <div class="w3-col m6 w3-large w3-margin-bottom">
+        <i class="fa fa-map-marker" style="width:30px"></i> Kent, UK<br>
+        <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
+        <i class="fa fa-envelope" style="width:30px"> </i> Email: placeholder@mail.com<br>
+      </div>
+      <div class="w3-col m6">
+        <form action="{{ url_for('zoo') }}" method="post">
+          <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+            <div class="w3-half">
+              <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+            </div>
+            <div class="w3-half">
+              <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+            </div>
+          </div>
+          <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
+          <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-- End Page Content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+</footer>
+
+<script>
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+</script>
+
+</body>
+</html>

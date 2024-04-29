@@ -1,0 +1,88 @@
+<!-- https://www.w3schools.com/w3css/w3css_templates.asp -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Oops!</title>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='images/favicon.png') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lato.css') }}">
+<!-- we cannot store this locally since it has dependencies hosted privately in the same location as the css file -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: "Lato", sans-serif}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">The Zoo</a>
+    <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Our Hotel</a>
+    <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Educational Visits</a>
+    <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Book Tickets</a>
+    {% if "token" in session %}
+      <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Login</a>
+    {% endif %}
+    <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">My Bookings</a>
+  </div>
+</div>
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  {% if "token" in session %}
+    <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large">Login</a>
+  {% endif %}
+  <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large">My Bookings</a>
+  <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+  <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large">The Zoo</a>
+  <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large">Our Hotel</a>
+  <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large">Educational Visits</a>
+  <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large">Book Tickets</a>
+</div>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+  <div class="w3-container w3-content w3-padding-64 w3-center" style="max-width:100%">
+    <h1>Oops! Something went wrong and the page you tried to access doesn't exist.</h1>
+    <img src="{{ url_for('static',filename='images/404.png') }}">
+  </div>
+
+<!-- End Page Content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+</footer>
+
+<script>
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+</script>
+
+</body>
+</html>

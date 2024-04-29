@@ -1,0 +1,200 @@
+<!-- https://www.w3schools.com/w3css/w3css_templates.asp -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>School Trips</title>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='images/favicon.png') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lato.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<!-- we cannot store this locally since it has dependencies hosted privately in the same location as the css file -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: "Lato", sans-serif}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">The Zoo</a>
+    <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Our Hotel</a>
+    <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Educational Visits</a>
+    <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Book Tickets</a>
+    {% if "token" in session %}
+      <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Login</a>
+    {% endif %}
+    <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">My Bookings</a>
+  </div>
+</div>
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  {% if "token" in session %}
+    <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large">Login</a>
+  {% endif %}
+  <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large">My Bookings</a>
+  <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+  <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large">The Zoo</a>
+  <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large">Our Hotel</a>
+  <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large">Educational Visits</a>
+  <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large">Book Tickets</a>
+</div>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <!-- The Main Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:1000px" id="main">
+
+    {% if messages|length > 0  %}
+      {% for message in messages %}
+        <div class="info">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          <strong>{{message}}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <h2 class="w3-wide">School Trips</h2>
+    <p class="w3-opacity"><i>Learn about our animals</i></p>
+    <img src="{{ url_for('static',filename='images/education6.jpg') }}" class="w3-image" style="max-width: 800px">
+    <h5 >At RZA, we want people to be able to enjoy their time visiting our animals and have it be something they remember. We love to teach people new things about our animals and share interesting facts so people can always say that they've gained knowledge from us.
+      Making children aware of problems such as deforestation at a younger age makes them more likely to retain that information into adulthood where they can be the ones to combat these issues.
+      This is why we now provide special Educational visit opportunities for schools! We would love for you to visit us and learn all about the animals we home so people can be made aware of the growing global issues regarding the destruction of animal habitats and the endangering of species.
+      Organising a school trip to the RZA means that you are directly supporting our efforts to help animals in need and spreading awareness to arising global issues such as deforestation.
+    </h5>
+
+  </div>
+
+  <!-- The Trip Information Section -->
+  <div class="w3-black" id="hotel">
+    <h1 class="w3-wide w3-center">What we offer</h1><br>
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Guided Tours</h2>
+      <p class="w3-opacity w3-center"><i>See everything we have to offer</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">Our trained tour guides will take you through our zoo to ensure you are able to see everything on your stay. They will guide you through the zoo and keep everyone on track with regular headcounts to ensure no one is lost.
+          Pupils will be able to vote on which areas to go to next and if they would like to revisit any. They will be as interactive, helpful, cheerful and informative as they can to give the best experience possible!</h3>
+        </div>
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/education5.jpg') }}">
+        </div>
+      </div>
+    </div>
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Informative talks</h2>
+      <p class="w3-opacity w3-center"><i>Done by trained professionals</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/education2.jpg') }}">
+        </div>
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">Here at RZA, we believe that knowledge is power. This is why we vigorously train our staff to know everything they can on our animals to be able to answer any questions someone may have.
+          They will guide you through the Zoo, taking you to different locations and talk about the animals, their natural habitat, the animals personal story etc. in an informative and digestible manner.
+          These talks will be available and suitable for people of all ages so everyone can enjoy learning!</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="w3-white" id="hotel2">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Animal Interactions</h2>
+      <p class="w3-opacity w3-center"><i>Feeding & petting animals</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">We also offer pupils the ability to interact directly with some of our animals. With the help of our trained staff, they can hold, pet and feed the animals as well as play with them.
+            We offer up close and personal interactions with a wide variety of our animals, all you have to do is ask!
+            Visitors playing with animals will always be accompanied by one of our professionally trained staff to ensure the safety of the animal as well as the visitor.</h3>
+        </div>
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/education3.jpg') }}">
+        </div>
+      </div>
+    </div>
+    <div class="w3-container w3-content w3-padding-64" style="max-width:100%">
+      <h2 class="w3-wide w3-center">Lunch Breaks</h2>
+      <p class="w3-opacity w3-center"><i>For all-day visitors</i></p><br>
+      <div class="w3-row w3-row-padding">
+        <div class="w3-half">
+          <img style="width: 100%;" src="{{ url_for('static',filename='images/education4.jpg') }}">
+        </div>
+        <div class="w3-half"><br><br><br><br><br>
+          <h3 style="text-align: center">During your visit, we provide a lunch break where food is provided for attendants. Pupils will have the choice from menu items such as burgers and hot dogs, as well as simpler items such as different sandwiches.
+          During this time, pupils will be seated in a dedicated outdoor lunch area where they can view animals from a distance while eating. We provide you with picnic blankets and benches as to ensure there is more than enough space for everyone to enjoy their food. </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- The Contact Section -->
+  <div class="w3-black">
+    <div class=" w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+      <h2 class="w3-wide w3-center">CONTACT</h2>
+      <p class="w3-opacity w3-center"><i>Interested? Drop us a message!</i></p>
+      <div class="w3-row w3-padding-32">
+        <div class="w3-col m6 w3-large w3-margin-bottom">
+          <i class="fa fa-map-marker" style="width:30px"></i> Kent, England<br>
+          <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
+          <i class="fa fa-envelope" style="width:30px"> </i> Email: placeholder@mail.com<br>
+        </div>
+        <div class="w3-col m6">
+          <form action="{{ url_for('educational') }}" method="post">
+            <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+              <div class="w3-half">
+                <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+              </div>
+              <div class="w3-half">
+                <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+              </div>
+            </div>
+            <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
+            <button class="w3-button w3-white w3-section w3-right" type="submit">SEND</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- End Page Content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+</script>
+
+</body>
+</html>

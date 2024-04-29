@@ -1,0 +1,183 @@
+<!-- https://www.w3schools.com/w3css/w3css_templates.asp -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Book now!</title>
+<link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='images/favicon.png') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/default.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lato.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<!-- we cannot store this locally since it has dependencies hosted privately in the same location as the css file -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<style>
+body {font-family: "Lato", sans-serif}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">The Zoo</a>
+    <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Our Hotel</a>
+    <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Educational Visits</a>
+    <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Book Tickets</a>
+    {% if "token" in session %}
+      <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">Login</a>
+    {% endif %}
+    <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">My Bookings</a>
+  </div>
+</div>
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  {% if "token" in session %}
+    <a href="{{ url_for('logout') }}" class="w3-bar-item w3-button w3-padding-large">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}" class="w3-bar-item w3-button w3-padding-large">Login</a>
+  {% endif %}
+  <a href="{{ url_for('bookings') }}" class="w3-bar-item w3-button w3-padding-large">My Bookings</a>
+  <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large">Home</a>
+  <a href="{{ url_for('zoo') }}" class="w3-bar-item w3-button w3-padding-large">The Zoo</a>
+  <a href="{{ url_for('hotel') }}" class="w3-bar-item w3-button w3-padding-large">Our Hotel</a>
+  <a href="{{ url_for('educational') }}" class="w3-bar-item w3-button w3-padding-large">Educational Visits</a>
+  <a href="{{ url_for('tickets') }}" class="w3-bar-item w3-button w3-padding-large">Book Tickets</a>
+</div>
+
+<!-- Page content -->
+<div class="w3-content" style="max-width:2000px;margin-top:46px">
+
+  <!-- The Booking Section -->
+  <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:800px" id="booking">
+    {% for message in errors %}
+      <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>{{message}}</strong>
+      </div>
+    {% endfor %}
+
+    {% if messages|length > 0  %}
+      {% for message in messages %}
+        <div class="info">
+          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+          <strong>{{message}}</strong>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="w3-row"></div>
+      <form action="{{ url_for('tickets') }}" method="post" id="form">
+        <div class="w3-third">
+          <h4>Please pick a day you would like to visit</h4><br><br>
+          <input form="form" class="w3-input" type="date" id="date" name="date" placeholder="dd/mm/yyyy" required>
+        </div>
+        <div class="w3-third">
+          <h4>Please pick what booking you would like to make</h4><br><br>
+          <label for="Hotel">Hotel</label>
+          <input name="Hotel" form="form" class="w3-input" type="checkbox" id="Hotel" value="Hotel"><br>
+          <label for="Zoo">Zoo</label>
+          <input name="Zoo" form="form" class="w3-input" type="checkbox" id="Zoo" value="Zoo"><br><br><br>
+          <input name="Submit" form="form" class="w3-button w3-black w3-round" type="submit" value="Submit">
+        </div>
+        <div class="w3-third">
+          <h4>Please pick how many tickets you need</h4><br><br>
+          <label for="Adult">Adult (£{{ adultTicketPrice }})</label>
+          <input name="Adult" form="form" type="number" min="1" max="5" id="Adult" value="1"  required><br><br>
+          <label for="Child">Child (£{{ childTicketPrice }})</label>
+          <input name="Child" form="form" type="number" min="0" max="5" id="Child" value="0"  required>
+
+        </div>
+      </form>
+    </div>
+    <div class="w3-center">
+      <h6>Total ticket prices are calculated once booked. Bookings are pay when you arrive with no cancellation fees.</h6>
+      <h6>Loyalty points are rewarded to users when a booking is made. If you cancel your booking, they will be removed.</h6>
+    </div>
+  </div>
+
+  <!-- The Contact Section -->
+  <div class="w3-black">
+    <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+      <h2 class="w3-wide w3-center">CONTACT</h2>
+      <p class="w3-opacity w3-center"><i>Question about booking? Ask us!</i></p>
+      <div class="w3-row w3-padding-32">
+        <div class="w3-col m6 w3-large w3-margin-bottom">
+          <i class="fa fa-map-marker" style="width:30px"></i>Kent, England<br>
+          <i class="fa fa-phone" style="width:30px"></i> Phone: +00 151515<br>
+          <i class="fa fa-envelope" style="width:30px"> </i> Email: placeholder@mail.com<br>
+        </div>
+        <div class="w3-col m6">
+          <form action="{{ url_for('tickets') }}" method="post">
+            <div class="w3-row-padding" style="margin:0 -16px 8px -16px">
+              <div class="w3-half">
+                <input class="w3-input w3-border" type="text" placeholder="Name" required name="Name">
+              </div>
+              <div class="w3-half">
+                <input class="w3-input w3-border" type="text" placeholder="Email" required name="Email">
+              </div>
+            </div>
+            <input class="w3-input w3-border" type="text" placeholder="Message" required name="Message">
+            <button class="w3-button w3-black w3-section w3-right" type="submit">SEND</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- End Page Content -->
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+</footer>
+
+<script>
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Used to disable dates before the current day in the calendar menu
+$(function(){
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+
+    // or instead:
+    // var maxDate = dtToday.toISOString().substr(0, 10);
+
+    // alert(maxDate);
+    $('#date').attr('min', maxDate);
+});
+</script>
+
+</body>
+</html>

@@ -2,7 +2,8 @@
 Source code for the T-Level Digital Production, Design and Development Exam 2024.
 
 This is where you can view the source code for the project. This was developed over a 30-hour period split across 4 weeks. 
-Some features went unfinished such as the Loyalty Point scheme due to time constraints. 
+View the live site here - https://smallerbenus.pythonanywhere.com/
+
 
 During this 4 week period, we had to have our exams rescheduled at least 4 times, with them being cancelled entirely on multiple occasions. 
 We had 3 student's work permanently lost - or at least partially lost - with mine luckily being recovered.
